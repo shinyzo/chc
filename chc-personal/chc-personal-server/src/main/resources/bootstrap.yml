@@ -19,3 +19,15 @@ eureka:
 logging:
   level:
     org.springframework.cloud.netflix.feign: debug
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  typeAliasesPackage: com.lming.chc.personal.server.entity
+  config-location: classpath:/config/mybatis-config.xml
+  check-config-location: true
+
+chc:
+  personal:
+   login:
+    enabled: true
+    skipurl: /index,/login,/doctor/list

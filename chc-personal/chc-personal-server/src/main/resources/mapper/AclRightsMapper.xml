@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lming.chc.personal.server.mapper.AclRightsMapper">
+  <resultMap id="BaseResultMap" type="com.lming.chc.personal.server.entity.AclRights">
+    <id column="right_id" jdbcType="VARCHAR" property="rightId" />
+    <result column="right_name" jdbcType="VARCHAR" property="rightName" />
+    <result column="right_icon" jdbcType="VARCHAR" property="rightIcon" />
+    <result column="link_url" jdbcType="VARCHAR" property="linkUrl" />
+    <result column="menu_type" jdbcType="VARCHAR" property="menuType" />
+    <result column="oper_type" jdbcType="VARCHAR" property="operType" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="request_url" jdbcType="VARCHAR" property="requestUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    right_id, right_name, right_icon, link_url, menu_type, oper_type, parent_id, request_url, 
+    status, sort
+  </sql>
+  <select id="selectByExample" parameterType="com.lming.chc.personal.server.entity.AclRightsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from acl_rights
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from acl_rights
+    where right_id = #{rightId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from acl_rights
+    where right_id = #{rightId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lming.chc.personal.server.entity.AclRightsExample">
+    delete from acl_rights
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lming.chc.personal.server.entity.AclRights">
+    <selectKey keyProperty="rightId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into acl_rights (right_name, right_icon, link_url, 
+      menu_type, oper_type, parent_id, 
+      request_url, status, sort
+      )
+    values (#{rightName,jdbcType=VARCHAR}, #{rightIcon,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}, 
+      #{menuType,jdbcType=VARCHAR}, #{operType,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{requestUrl,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lming.chc.personal.server.entity.AclRights">
+    <selectKey keyProperty="rightId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into acl_rights
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rightName != null">
+        right_name,
+      </if>
+      <if test="rightIcon != null">
+        right_icon,
+      </if>
+      <if test="linkUrl != null">
+        link_url,
+      </if>
+      <if test="menuType != null">
+        menu_type,
+      </if>
+      <if test="operType != null">
+        oper_type,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="requestUrl != null">
+        request_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rightName != null">
+        #{rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightIcon != null">
+        #{rightIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null">
+        #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lming.chc.personal.server.entity.AclRightsExample" resultType="java.lang.Long">
+    select count(*) from acl_rights
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update acl_rights
+    <set>
+      <if test="record.rightId != null">
+        right_id = #{record.rightId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightName != null">
+        right_name = #{record.rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightIcon != null">
+        right_icon = #{record.rightIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkUrl != null">
+        link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuType != null">
+        menu_type = #{record.menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operType != null">
+        oper_type = #{record.operType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestUrl != null">
+        request_url = #{record.requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update acl_rights
+    set right_id = #{record.rightId,jdbcType=VARCHAR},
+      right_name = #{record.rightName,jdbcType=VARCHAR},
+      right_icon = #{record.rightIcon,jdbcType=VARCHAR},
+      link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      menu_type = #{record.menuType,jdbcType=VARCHAR},
+      oper_type = #{record.operType,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      request_url = #{record.requestUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lming.chc.personal.server.entity.AclRights">
+    update acl_rights
+    <set>
+      <if test="rightName != null">
+        right_name = #{rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightIcon != null">
+        right_icon = #{rightIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null">
+        link_url = #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        menu_type = #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        oper_type = #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where right_id = #{rightId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lming.chc.personal.server.entity.AclRights">
+    update acl_rights
+    set right_name = #{rightName,jdbcType=VARCHAR},
+      right_icon = #{rightIcon,jdbcType=VARCHAR},
+      link_url = #{linkUrl,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=VARCHAR},
+      oper_type = #{operType,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      request_url = #{requestUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where right_id = #{rightId,jdbcType=VARCHAR}
+  </update>
+</mapper>

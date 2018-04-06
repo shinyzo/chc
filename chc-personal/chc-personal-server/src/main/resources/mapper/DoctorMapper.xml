@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lming.chc.personal.server.mapper.DoctorMapper">
+
+    <resultMap id="doctorResultMap" type="DoctorInfo">
+        <id property="doctorId" column="doctor_id" javaType="java.lang.Integer"/>
+        <result property="userId" column="id" javaType="java.lang.Integer"/>
+        <result property="doctorName" column="doctor_name" javaType="java.lang.String"/>
+        <result property="sex" column="sex" javaType="java.lang.String"/>
+        <result property="birthday" column="birthday" javaType="java.lang.String"/>
+        <result property="idCardNo" column="id_card_no" javaType="java.lang.String"/>
+        <result property="avatar" column="avatar" javaType="java.lang.String"/>
+        <result property="qafcaCertNo" column="qafca_cert_no" javaType="java.lang.String"/>
+        <result property="qafcaCertImg" column="qafca_cert_img" javaType="java.lang.String"/>
+        <result property="qafcaCertSignDate" column="qafca_cert_sign_date" javaType="java.lang.String"/>
+        <result property="practCertNo" column="pract_cert_no" javaType="java.lang.String"/>
+        <result property="practCertImg" column="pract_certImg" javaType="java.lang.String"/>
+        <result property="practCertRegisterDate" column="pract_cert_register_date" javaType="java.lang.String"/>
+        <result property="hospitalId" column="hospital_id" javaType="java.lang.Integer"/>
+        <result property="levelId" column="level_id" javaType="java.lang.Integer"/>
+        <result property="subjectId" column="subject_id" javaType="java.lang.String"/>
+
+        <result property="subjectName" column="subject_name_t" javaType="java.lang.String"/>
+        <result property="hospitalName" column="hospital_name_t" javaType="java.lang.String"/>
+        <result property="levelName" column="level_name_t" javaType="java.lang.String"/>
+
+    </resultMap>
+
+    <sql id="where_case">
+        <if test="doctorId != null and doctorId != 0">and d.doctor_id = #{doctorId}</if>
+        <if test="subjectId != null and subjectId != ''">and d.subject_id = #{subjectId}</if>
+        <if test="levelId != null and levelId != 0">and d.level_id = #{levelId}</if>
+        <if test="hospitalId != null and hospitalId != 0">and d.hospital_id = #{hospitalId}</if>
+        <if test="doctorName != null and doctorName != ''">and d.doctor_name like "%"#{doctorName}"%"</if>
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="orderby">
+        <if test="orderField != null and orderSort != null ">order by <![CDATA[${orderField}]]> <![CDATA[${orderSort}]]></if>
+    </sql>
+
+    <select id="findAll" parameterType="java.util.HashMap" resultMap="doctorResultMap">
+        select
+              d.*,
+              s.subject_name as subject_name_t,
+              l.level_name as level_name_t,
+              h.hospital_name as hospital_name_t ,
+              u.id
+        from
+              doctor_info d
+        left join hspl_subject s on d.subject_id = s.subject_id
+        left join doctor_level l on d.level_id = l.level_id
+        left join hospital h on d.hospital_id = h.hospital_id
+        left join acl_user_info u on d.user_id = u.id
+        where 1 = 1
+        <include refid="where_case" />
+    </select>
+
+</mapper>
